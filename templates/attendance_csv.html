@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}FaceAttend - Attendance CSV{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="csv-header">
+    <h3>📄 Attendance CSV</h3>
+    <a class="btn-primary" href="{{ url_for('download_attendance_csv') }}">⬇ Download CSV</a>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Date</th><th>Time</th><th>Roll Number</th><th>Name</th>
+        <th>Status</th><th>Confidence</th><th>Distance</th><th>Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row['Date'] }}</td>
+        <td>{{ row['Time'] }}</td>
+        <td>{{ row['Roll Number'] }}</td>
+        <td>{{ row['Name']|capitalize }}</td>
+        <td><span class="status-pill {{ 'present' if row['Status']=='Present' else 'absent' }}">{{ row['Status'] }}</span></td>
+        <td>{{ row['Confidence'] }}</td>
+        <td>{{ row['Distance'] }}</td>
+        <td>{{ row['Method'] }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="8">No attendance recorded yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

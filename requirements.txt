@@ -1,0 +1,6 @@
+flask
+gunicorn
+tensorflow
+keras-facenet
+opencv-python-headless
+numpy

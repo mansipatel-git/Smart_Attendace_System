@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}FaceAttend - Smart Attendance System{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+  <a class="brand" href="{{ url_for('home') }}">
+    <span class="brand-icon">◧</span>
+    <span class="brand-text">
+      <span class="brand-title">Face<strong>Attend</strong></span>
+      <span class="brand-sub">Smart Attendance System</span>
+    </span>
+  </a>
+
+  <nav class="nav-links">
+    <a href="{{ url_for('home') }}" class="{{ 'active' if request.path == url_for('home') }}">🏠 Home</a>
+    <a href="{{ url_for('roll_numbers_page') }}" class="{{ 'active' if request.path == url_for('roll_numbers_page') }}">🆔 Roll Numbers</a>
+    <a href="{{ url_for('attendance_csv_page') }}" class="{{ 'active' if request.path == url_for('attendance_csv_page') }}">📄 Attendance CSV</a>
+  </nav>
+
+  <button class="btn-primary" type="submit" form="attendance-form">Take Attendance</button>
+</header>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-wrap">
+      {% for m in messages %}
+        <div class="flash">{{ m }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main class="page">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-col">
+    <div class="brand-title">Face<strong>Attend</strong></div>
+    <p>AI-powered face recognition attendance system using FaceNet and OpenCV.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Quick Links</h4>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('roll_numbers_page') }}">Roll Numbers</a>
+    <a href="{{ url_for('attendance_csv_page') }}">Attendance CSV</a>
+  </div>
+  <div class="footer-col">
+    <h4>Developed By</h4>
+    <p>Mansi Patel</p>
+  </div>
+</footer>
+
+</body>
+</html>

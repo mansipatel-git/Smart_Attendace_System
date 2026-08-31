@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}FaceAttend - Roll Numbers{% endblock %}
+{% block content %}
+<section class="card">
+  <h3>🆔 Roll Numbers</h3>
+  <p class="muted">Roll number mapping used for face recognition.</p>
+  <table class="data-table">
+    <thead><tr><th>Roll No.</th><th>Student Name</th></tr></thead>
+    <tbody>
+      {% for r in roll_numbers %}
+      <tr><td>{{ r.roll }}</td><td>{{ r.name|capitalize }}</td></tr>
+      {% else %}
+      <tr><td colspan="2">No students found in dataset/.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

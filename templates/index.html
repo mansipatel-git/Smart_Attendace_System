@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}FaceAttend - Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Face Recognition <span class="accent">Attendance</span></h1>
+    <p>Detect faces, recognize students and mark attendance automatically</p>
+
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span> Upload Image</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="step-num">2</span> Detect Faces</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="step-num">3</span> Recognize</div>
+      <span class="arrow">→</span>
+      <div class="step"><span class="step-num">4</span> Mark Attendance</div>
+    </div>
+  </div>
+  <div class="hero-art">◎</div>
+</section>
+
+<form id="attendance-form" method="POST" action="{{ url_for('take_attendance') }}" enctype="multipart/form-data" class="upload-row">
+  <label class="file-input">
+    <input type="file" name="group_image" accept=".jpg,.jpeg,.png" required>
+    <span>{% if result %}Upload a new group photo{% else %}Choose a group photo to take attendance{% endif %}</span>
+  </label>
+</form>
+
+{% if result %}
+<section class="grid-2">
+  <div class="card">
+    <h3>🖼️ Detection Result</h3>
+    <img class="result-image" src="{{ result.result_image }}" alt="Detection result">
+  </div>
+
+  <div class="side-col">
+    <div class="card">
+      <h3>📊 Summary</h3>
+      <div class="summary-row">
+        <div class="summary-pill present">✅ <div><span>Present</span><strong>{{ result.summary.present }}</strong></div></div>
+        <div class="summary-pill absent">✕ <div><span>Absent</span><strong>{{ result.summary.absent }}</strong></div></div>
+      </div>
+      <div class="summary-pill total">👥 <div><span>Total Students</span><strong>{{ result.summary.total_students }}</strong></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Details</h3>
+      <ul class="details-list">
+        <li><span>📅 Date</span><strong>{{ result.summary.date }}</strong></li>
+        <li><span>⏰ Time</span><strong>{{ result.summary.time }}</strong></li>
+        <li><span>🎯 Threshold</span><strong>{{ result.summary.threshold }}</strong></li>
+        <li><span>❓ Unknown Detected</span><strong>{{ result.summary.unknown_detected }}</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="grid-2">
+  <div class="card">
+    <h3><span class="badge">1</span> Roll Numbers</h3>
+    <table class="data-table">
+      <thead><tr><th>Roll No.</th><th>Student Name</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for r in roll_numbers %}
+        <tr>
+          <td>{{ r.roll }}</td>
+          <td>{{ r.name|capitalize }}</td>
+          <td>
+            {% set marked = result.marked_today|selectattr("name","equalto", r.name)|list %}
+            {% if marked %}
+              <span class="status-pill {{ 'present' if marked[0].status=='Present' else 'absent' }}">{{ marked[0].status }}</span>
+            {% else %}
+              <span class="status-pill">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="badge">2</span> Marked Attendance</h3>
+    <p class="muted">Attendance has been saved in CSV format.</p>
+    <table class="data-table">
+      <thead><tr><th>Roll No.</th><th>Name</th><th>Status</th><th>Date</th><th>Time</th></tr></thead>
+      <tbody>
+        {% for m in result.marked_today %}
+        <tr>
+          <td>{{ m.roll }}</td>
+          <td>{{ m.name|capitalize }}</td>
+          <td><span class="status-pill {{ 'present' if m.status=='Present' else 'absent' }}">{{ m.status }}</span></td>
+          <td>{{ m.date }}</td>
+          <td>{{ m.time }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="btn-row">
+      <a class="btn-primary" href="{{ url_for('download_attendance_csv') }}">⬇ Download CSV</a>
+      <a class="btn-outline" href="{{ url_for('attendance_csv_page') }}">📄 View CSV</a>
+    </div>
+  </div>
+</section>
+
+<section class="card center-card">
+  <h3>Take Another Attendance</h3>
+  <p class="muted">Upload a new group image to mark attendance again.</p>
+  <label class="btn-primary file-btn">
+    ⬆ Upload New Image
+    <input type="file" name="group_image" form="attendance-form" accept=".jpg,.jpeg,.png" onchange="this.form.submit()" hidden>
+  </label>
+</section>
+
+{% else %}
+<section class="card">
+  <h3>🆔 Roll Numbers</h3>
+  <table class="data-table">
+    <thead><tr><th>Roll No.</th><th>Student Name</th></tr></thead>
+    <tbody>
+      {% for r in roll_numbers %}
+      <tr><td>{{ r.roll }}</td><td>{{ r.name|capitalize }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+{% endblock %}
