@@ -38,14 +38,14 @@ The project demonstrates the practical application of **Artificial Intelligence,
 ---
 # 🎥 Demo
 
-## 
+
 
 ## 1 Face Recognition
 
 The system detects faces from the group image and compares them with the registered student faces.
 
 <p align="center">
-<img src="screenshots/result1.png" width="900">
+<img screenshots/Screenshot_2026-09-01 010925.png" width="900">
 </p>
 
 ---
