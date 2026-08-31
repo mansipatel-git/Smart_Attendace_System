@@ -1,7 +1,5 @@
 Flask
 gunicorn
-tensorflow==2.15.1
-keras-facenet
 opencv-python-headless
 numpy<2
-scipy
+
