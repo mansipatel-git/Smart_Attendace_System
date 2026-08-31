@@ -45,7 +45,7 @@ The project demonstrates the practical application of **Artificial Intelligence,
 The system detects faces from the group image and compares them with the registered student faces.
 
 <p align="center">
-<img src="screenshots/demo2.png" width="900">
+<img src="screenshots/demo4.png" width="900">
 </p>
 
 ---
@@ -55,13 +55,15 @@ The system detects faces from the group image and compares them with the registe
 If a detected face does not match any registered student within the recognition threshold, the system identifies the person as **Unknown**.
 
 <p align="center">
-<img src="screenshots/result2.png" width="900">
+<img src="screenshots/demo3.png" width="900">
 </p>
 
 ---
 
 ## 4️ Attendance CSV
-
+<p align="center">
+<img src="screenshots/demo1.png" width="900">
+</p>
 
 ```text
 👥 Faces detected: 3
