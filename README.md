@@ -38,7 +38,7 @@ The project demonstrates the practical application of **Artificial Intelligence,
 ---
 # 🎥 Demo
 
-
+## 
 
 ## 1 Face Recognition
 
@@ -166,7 +166,7 @@ Follow the steps below to run the **Face Recognition Attendance System** on your
 Open a terminal and run the python file:
 
 ```bash
-python attendance.py
+python app.py
 
 ```
 # 🚀 Future Development
